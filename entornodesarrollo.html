@@ -1,124 +1,64 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Simple</title>
+    <title>Calculadora Funcional</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
-        }
-
-        .calculadora {
-            background-color: #ffffff;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 300px;
-        }
-
-        h2 { text-align: center; color: #333; margin-top: 0; }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #eee;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus { border-color: #007bff; }
-
-        .botones {
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .btn-suma { background-color: #00e636; color: white; }
-        .btn-resta { background-color: #f70000; color: white; }
-        
-        button:hover { opacity: 0.9; }
-        button:active { transform: scale(0.95); }
-
-        .resultado-container {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        #resultado {
-            font-size: 20px;
-            font-weight: bold;
-            color: #495057;
-        }
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f0f0f0; }
+        .caja { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); width: 280px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; font-size: 18px; border: 1px solid #ccc; border-radius: 5px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+        button { padding: 15px; font-size: 20px; cursor: pointer; border: none; border-radius: 5px; color: white; }
+        .sum { background: #04f738; }
+        .res { background: #ca2121; }
+        .mul { background: #f39c12; }
+        .clear { background: #7f8c8d; grid-column: span 3; margin-top: 10px; font-size: 14px; }
+        #res-texto { margin-top: 20px; font-size: 24px; font-weight: bold; text-align: center; color: #333; min-height: 30px; }
     </style>
 </head>
 <body>
 
-<div class="calculadora">
-    <h2>Calculadora</h2>
+<div class="caja">
+    <input type="number" id="a" placeholder="Número 1">
+    <input type="number" id="b" placeholder="Número 2">
     
-    <input type="number" id="num1" placeholder="Primer número">
-    <input type="number" id="num2" placeholder="Segundo número">
-    
-    <div class="botones">
-        <button class="btn-suma" onclick="operar('sumar')">+</button>
-        <button class="btn-resta" onclick="operar('restar')">-</button>
+    <div class="grid">
+        <button class="sum" onclick="calc('+')">+</button>
+        <button class="res" onclick="calc('-')">-</button>
+        <button class="mul" onclick="calc('*')">×</button>
     </div>
 
-    <div class="resultado-container">
-        <span>Resultado:</span>
-        <div id="resultado">0</div>
-    </div>
+    <button class="clear" onclick="limpiar()">BORRAR TODO</button>
+
+    <div id="res-texto">0</div>
 </div>
 
 <script>
-    function operar(tipo) {
-        // Obtenemos los valores de los inputs
-        const n1 = parseFloat(document.getElementById('num1').value);
-        const n2 = parseFloat(document.getElementById('num2').value);
-        const display = document.getElementById('resultado');
+    function calc(op) {
+        // Obtenemos los valores justo al hacer click
+        var n1 = parseFloat(document.getElementById('a').value);
+        var n2 = parseFloat(document.getElementById('b').value);
+        var cajaResultado = document.getElementById('res-texto');
 
-        // Validación básica
+        // Validar que no estén vacíos
         if (isNaN(n1) || isNaN(n2)) {
-            display.innerText = "Error: Ingresa números";
-            display.style.color = "#dc3545";
+            cajaResultado.innerHTML = "Escribe números";
+            cajaResultado.style.color = "red";
             return;
         }
 
-        let resultado;
-        if (tipo === 'sumar') {
-            resultado = n1 + n2;
-        } else {
-            resultado = n1 - n2;
-        }
+        var final = 0;
+        if (op === '+') final = n1 + n2;
+        if (op === '-') final = n1 - n2;
+        if (op === '*') final = n1 * n2;
 
-        // Mostramos el resultado
-        display.innerText = resultado;
-        display.style.color = "#495057";
+        cajaResultado.innerHTML = final;
+        cajaResultado.style.color = "#333";
+    }
+
+    function limpiar() {
+        document.getElementById('a').value = "";
+        document.getElementById('b').value = "";
+        document.getElementById('res-texto').innerHTML = "0";
     }
 </script>
 
