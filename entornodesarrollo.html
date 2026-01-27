@@ -29,7 +29,7 @@
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            border: 2px solid #eee;
+            border: 2px solid #e65050;
             border-radius: 8px;
             box-sizing: border-box;
             font-size: 16px;
@@ -57,6 +57,7 @@
 
         .btn-suma { background-color: #00e636; color: white; }
         .btn-resta { background-color: #f70000; color: white; }
+        .btn-div { background-color: #007bff; color: white; }
         
         button:hover { opacity: 0.9; }
         button:active { transform: scale(0.95); }
@@ -73,6 +74,7 @@
             font-size: 20px;
             font-weight: bold;
             color: #495057;
+            min-height: 1.2em;
         }
     </style>
 </head>
@@ -87,6 +89,7 @@
     <div class="botones">
         <button class="btn-suma" onclick="operar('sumar')">+</button>
         <button class="btn-resta" onclick="operar('restar')">-</button>
+        <button class="btn-div" onclick="operar('dividir')">/</button>
     </div>
 
     <div class="resultado-container">
@@ -97,30 +100,25 @@
 
 <script>
     function operar(tipo) {
-        // Obtenemos los valores de los inputs
-        const n1 = parseFloat(document.getElementById('num1').value);
-        const n2 = parseFloat(document.getElementById('num2').value);
-        const display = document.getElementById('resultado');
+        // Capturamos los valores actuales cada vez que se pulsa un botón
+        const val1 = document.getElementById('num1').value;
+        const val2 = document.getElementById('num2').value;
+        const display = document.getElementById('resultado');}
 
-        // Validación básica
-        if (isNaN(n1) || isNaN(n2)) {
-            display.innerText = "Error: Ingresa números";
-            display.style.color = "#dc3545";
+        // Verificamos si los campos están vacíos
+        if (val1 === "" || val2 === "") {
+            display.innerText = "Ingresa números";
+            display.style.color = "#f70000";
             return;
         }
 
+        const n1 = parseFloat(val1);
+        const n2 = parseFloat(val2);
         let resultado;
+
+        // Reset color por defecto
+        display.style.color = "#495057";
+
         if (tipo === 'sumar') {
             resultado = n1 + n2;
-        } else {
-            resultado = n1 - n2;
         }
-
-        // Mostramos el resultado
-        display.innerText = resultado;
-        display.style.color = "#495057";
-    }
-</script>
-
-</body>
-</html>
