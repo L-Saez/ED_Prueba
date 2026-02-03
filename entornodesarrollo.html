@@ -4,14 +4,19 @@
     <title>Calculadora Funcional</title>
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f0f0f0; }
-        .caja { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); width: 280px; }
+        .caja { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); width: 300px; }
         input { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; font-size: 18px; border: 1px solid #ccc; border-radius: 5px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
-        button { padding: 15px; font-size: 20px; cursor: pointer; border: none; border-radius: 5px; color: white; }
+        /* Cambiamos a 4 columnas para que quepan los 4 operadores */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        button { padding: 15px; font-size: 20px; cursor: pointer; border: none; border-radius: 5px; color: white; transition: 0.2s; }
+        button:hover { opacity: 0.8; }
+        
         .sum { background: #04f738; }
         .res { background: #ca2121; }
         .mul { background: #f39c12; }
-        .clear { background: #7f8c8d; grid-column: span 3; margin-top: 10px; font-size: 14px; }
+        .div { background: #3498db; } 
+        
+        .clear { background: #7f8c8d; width: 100%; margin-top: 10px; font-size: 14px; }
         #res-texto { margin-top: 20px; font-size: 24px; font-weight: bold; text-align: center; color: #333; min-height: 30px; }
     </style>
 </head>
@@ -25,7 +30,7 @@
         <button class="sum" onclick="calc('+')">+</button>
         <button class="res" onclick="calc('-')">-</button>
         <button class="mul" onclick="calc('*')">×</button>
-    </div>
+        <button class="div" onclick="calc('/')">÷</button> </div>
 
     <button class="clear" onclick="limpiar()">BORRAR TODO</button>
 
@@ -34,12 +39,10 @@
 
 <script>
     function calc(op) {
-        // Obtenemos los valores justo al hacer click
         var n1 = parseFloat(document.getElementById('a').value);
         var n2 = parseFloat(document.getElementById('b').value);
         var cajaResultado = document.getElementById('res-texto');
 
-        // Validar que no estén vacíos
         if (isNaN(n1) || isNaN(n2)) {
             cajaResultado.innerHTML = "Escribe números";
             cajaResultado.style.color = "red";
@@ -47,11 +50,23 @@
         }
 
         var final = 0;
+        
+        // Lógica de operaciones
         if (op === '+') final = n1 + n2;
         if (op === '-') final = n1 - n2;
         if (op === '*') final = n1 * n2;
+        if (op === '/') {
+            // Validación para no dividir por cero
+            if (n2 === 0) {
+                cajaResultado.innerHTML = "No se puede dividir por 0";
+                cajaResultado.style.color = "red";
+                return;
+            }
+            final = n1 / n2;
+        }
 
-        cajaResultado.innerHTML = final;
+        // Redondear a 2 decimales para que no se salga de la caja si es periódico
+        cajaResultado.innerHTML = Number.isInteger(final) ? final : final.toFixed(2);
         cajaResultado.style.color = "#333";
     }
 
@@ -59,6 +74,7 @@
         document.getElementById('a').value = "";
         document.getElementById('b').value = "";
         document.getElementById('res-texto').innerHTML = "0";
+        document.getElementById('res-texto').style.color = "#333";
     }
 </script>
 
