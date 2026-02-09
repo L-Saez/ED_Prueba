@@ -6,7 +6,6 @@
         body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #f0f0f0; }
         .caja { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); width: 300px; }
         input { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; font-size: 18px; border: 1px solid #ccc; border-radius: 5px; }
-        /* Cambiamos a 4 columnas para que quepan los 4 operadores */
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
         button { padding: 15px; font-size: 20px; cursor: pointer; border: none; border-radius: 5px; color: white; transition: 0.2s; }
         button:hover { opacity: 0.8; }
@@ -51,12 +50,12 @@
 
         var final = 0;
         
-        // Lógica de operaciones
+        
         if (op === '+') final = n1 + n2;
         if (op === '-') final = n1 - n2;
         if (op === '*') final = n1 * n2;
         if (op === '/') {
-            // Validación para no dividir por cero
+         
             if (n2 === 0) {
                 cajaResultado.innerHTML = "No se puede dividir por 0";
                 cajaResultado.style.color = "red";
